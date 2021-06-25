@@ -1,48 +1,37 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Order;
-use App\User;
-use DB;
 use Auth;
-use App\Wallet;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
-
+use App\Traits\CommonTrait;
 
 class OrderController extends Controller
 {
+    use CommonTrait;
     public function order(Request $request){
         $this->validate($request,[
             'item'     => 'required',
             'quantity' => 'required',
             'total'    => 'required'
         ]);
-        $order              = new Order();
-        $customer           = User::where('id',Auth::user()->id)->first();
-        $order->customer_id = Auth::user()->id;
-        $order->item_id     = intVal($request->item);
-        $order->name        = $customer->name;
-        $order->email       = $customer->email;
-        $order->type        = $request->type;
-        if($request->type=="wallet"){
-            $wallet = Wallet::where('customer_id',Auth::user()->id)->first();
-            if(floatVal($wallet->balance)<floatVal($request->total)){
-                Toastr::error('Not enough money in your wallet, please select alternate option','Error',["positionClass" => "toast-top-right"]);
-                return redirect()->back();
-            }
+        $id       = Auth::user()->id;
+        $param    = ['item'     => $request->item,
+                     'quantity' => $request->quantity,
+                     'total'    => $request->total,
+                     'type'     => $request->type,
+                     'id'       => $id
+                    ];
+        $route    = '/api/create_order';
+        $result   = $this->ApiCall($route,$param,"array");
+        if(isset($result['status']) && isset($result['message'])){
+            if($result['status']=="Success"){
+                Toastr::success($result['message'],$result['status'],["positionClass" => "toast-top-right"]);
+            }  
             else{
-                $walletBal = floatVal($wallet->balance)-floatVal($request->total);
-                $wallet->balance = $walletBal;
-                $wallet->save();
+                Toastr::error($result['message'],$result['status'],["positionClass" => "toast-top-right"]);
             }
+            return redirect()->back();
         }
-        $order->quantity    = $request->quantity;
-        $order->total       = $request->total;
-        $order->status      = false;
-        $order->save();
-        Toastr::success('Order request sent successfully.','Success',["positionClass" => "toast-top-right"]);
-        return redirect()->back();
     }
 }

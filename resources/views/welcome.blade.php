@@ -73,6 +73,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="Food-fair-toggle">
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" style="color:yellow !important;">Hi, {{Auth::user()->name}} !</a></li>
                 <li><a href="#menu-list">menu list</a></li>
                 <li><a href="#order">order</a></li>
                 <li><a href="#wallet">wallet ( ${{$walletBal}} )</a></li>
@@ -116,7 +117,7 @@
                                 <ul id="filter-list" class="clearfix">
                                     <li class="filter" data-filter="all">All</li>
                                     @foreach($categories as $category)
-                                        <li class="filter" data-filter="#{{ $category->slug }}">{{ $category->name }} <span class="badge">{{ $category->items->count() }}</span></li>
+                                        <li class="filter" data-filter="#{{ $category->slug }}">{{ $category->name }} <span class="badge">{{ $category->item_count }}</span></li>
                                     @endforeach
                                 </ul><!-- @end #filter-list -->
                             </div>
@@ -132,7 +133,7 @@
                     <ul id="menu-pricing" class="menu-price">
 
                         @foreach($items as $item)
-                            <li class="item" id="{{ $item->category->slug }}">
+                            <li class="item" id="{{ $item->category_slug }}">
                                 <a href="#">
                                     <img src="{{ asset('uploads/item/'.$item->image) }}" class="img-responsive" alt="Item" style="height: 300px; width: 369px;" >
                                     <div class="menu-desc text-center">

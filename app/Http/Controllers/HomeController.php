@@ -1,17 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Category;
-use App\Item;
-use App\Slider;
-use App\Wallet;
 use Auth;
 use Illuminate\Http\Request;
-use DB;
+use App\Traits\CommonTrait;
 
 class HomeController extends Controller
 {
+    use CommonTrait;
     /**
      * Create a new controller instance.
      *
@@ -26,33 +22,26 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $sliders    = Slider::all();
-        $categories = Category::all();
-        $items      = Item::all();
-        $walletBal  = 150;
-        $wallet     = Wallet::where('customer_id',Auth::user()->id)->first();
-        if($wallet){
-            $walletBal = $wallet->balance;
+        $id       = Auth::user()->id;
+        $param    = ['id' => $id];
+        $route    = '/api/load_home';
+        $result   = $this->ApiCall($route,$param,"object");
+        if(isset($result)){
+            $sliders    = $result->sliders;
+            $categories = $result->categories;
+            $items      = $result->items;
+            $walletBal  = $result->walletBal;
+            $orders     = $result->orders;
+            return view('welcome',compact('sliders','categories','items','walletBal','orders'));
         }
-        else{
-            $objWallet              = New Wallet();
-            $objWallet->customer_id = Auth::user()->id;
-            $objWallet->balance     = $walletBal;
-            $objWallet->save();
-        }
-        if($categories){
-            foreach($categories as $key=>$cat){
-                $categories[$key]->item = Item::where('category_id',$cat->id)->get();
-            }
-        }
-        $orders = DB::table('orders')
-                    ->join('items', 'items.id', '=', 'orders.item_id')
-                    ->select('items.name as item_name','orders.*')
-                    ->get();
-        return view('welcome',compact('sliders','categories','items','walletBal','orders'));
     }
     public function getItems(Request $request){
-        $items = Item::where('category_id',$request->category)->get();
-        return $items;
+        $id       = $request->category;
+        $param    = ['id' => $id];
+        $route    = '/api/get_items';
+        $items    = $this->ApiCall($route,$param,"object");
+        if(isset($items)){
+            return $items;
+        }
     }
 }

@@ -2,41 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\Wallet;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Auth;
+use App\Traits\CommonTrait;
 
 class WalletController extends Controller
 {
+    use CommonTrait;
     public function recharge(Request $request)
     {
         $this->validate($request,[
             'recharge_amount' => 'required',
         ]);
-
-        $wallet          = Wallet::where('customer_id',Auth::user()->id)->first();
-        $wallet->balance = floatVal($wallet->balance)+floatVal($request->recharge_amount);
-        $wallet->save();
-
-        Toastr::success('Successfully recharged.','Success',["positionClass" => "toast-top-right"]);
-        return redirect()->back();
+        $id       = Auth::user()->id;
+        $param    = ['id'              => $id,
+                     'recharge_amount' => $request->recharge_amount
+                    ];
+        $route    = '/api/recharge_wallet';
+        $result   = $this->ApiCall($route,$param,"array");
+        if(isset($result['status']) && isset($result['message'])){            
+            Toastr::success($result['message'],$result['status'],["positionClass" => "toast-top-right"]);
+            return redirect()->back();
+        }        
     }
     public function withdraw(Request $request)
     {
         $this->validate($request,[
             'withdraw_amount' => 'required',
         ]);
-
-        $wallet          = Wallet::where('customer_id',Auth::user()->id)->first();
-        if(floatVal($wallet->balance)<floatVal($request->withdraw_amount)){
-            Toastr::error('Not enough money in your wallet.','Error',["positionClass" => "toast-top-right"]);
+        $id       = Auth::user()->id;
+        $param    = ['id'              => $id,
+                     'withdraw_amount' => $request->withdraw_amount
+                    ];
+        $route    = '/api/withdraw_wallet';
+        $result   = $this->ApiCall($route,$param,"array");
+        if(isset($result['status']) && isset($result['message'])){ 
+            if($result['status']=="Success"){
+                Toastr::success($result['message'],$result['status'],["positionClass" => "toast-top-right"]);
+            }  
+            else{
+                Toastr::error($result['message'],$result['status'],["positionClass" => "toast-top-right"]);
+            }         
             return redirect()->back();
-        }
-        $wallet->balance = floatVal($wallet->balance)-floatVal($request->withdraw_amount);
-        $wallet->save();
-
-        Toastr::success('Successfully withdrawn.','Success',["positionClass" => "toast-top-right"]);
-        return redirect()->back();
+        }        
     }
 }
