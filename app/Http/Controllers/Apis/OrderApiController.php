@@ -61,6 +61,10 @@ class OrderApiController extends Controller
         $response['items']      = Item::all();
         foreach($response['items'] as $key => $item){
             $response['items'][$key]->category_slug = $item->category->slug;
+            if (!file_exists('backend/img/'.$item->image))
+            {
+                $response['items'][$key]->image = 'category_backup.jpg';
+            }
         }
         $response['walletBal']  = 150;
         $wallet     = Wallet::where('customer_id',$request->id)->first();
