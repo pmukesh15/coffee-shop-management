@@ -75,6 +75,7 @@ class OrderApiController extends Controller
         }
         $response['orders'] = DB::table('orders')
                                 ->join('items', 'items.id', '=', 'orders.item_id')
+                                ->where('orders.customer_id',$request->id)
                                 ->select('items.name as item_name','orders.*')
                                 ->get();
         return $response;
