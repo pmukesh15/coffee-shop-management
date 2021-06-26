@@ -28,8 +28,16 @@ class OrderController extends Controller
         return redirect()->back();
     }
     public function destory($id){
+        $orderData = Order::find($id);
+        $message   =  'Order successfully deleted.';
+        if($orderData->type=="wallet"){
+            $wallet          = Wallet::where('customer_id',$orderData->customer_id)->first();
+            $wallet->balance = floatVal($wallet->balance)+floatVal($orderData->total);
+            $wallet->save();
+            $message   .= ' Amount will be refunded to customer wallet.';
+        }
         Order::find($id)->delete();
-        Toastr::success('Order successfully deleted.','Success',["positionClass" => "toast-top-right"]);
+        Toastr::success($message,'Success',["positionClass" => "toast-top-right"]);
         return redirect()->back();
     }
 }

@@ -107,4 +107,19 @@ class OrderApiController extends Controller
         $response['status']  = "Success";
         return $response;
     }
+    //cancel order
+    protected function deleteOrder(Request $request){
+        $orderData = Order::find($request->id);
+        $message   = "Order cancelled.";
+        if($orderData->type=="wallet"){
+            $wallet          = Wallet::where('customer_id',$orderData->customer_id)->first();
+            $wallet->balance = floatVal($wallet->balance)+floatVal($orderData->total);
+            $wallet->save();
+            $message   .= ' Amount has been refunded to your wallet.';
+        }
+        $orderData->delete();
+        $response['message'] = $message;
+        $response['status']  = "Success";
+        return $response;
+    }
 }

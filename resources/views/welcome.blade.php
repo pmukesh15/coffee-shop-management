@@ -274,6 +274,7 @@
                                     <th>Payment Method</th>
                                     <th>Status</th>
                                     <th>Date & Time</th>
+                                    <th>Action</th>
                                     </thead>
                                     <tbody>
                                         @foreach($orders as $key=>$order)
@@ -292,6 +293,20 @@
 
                                                 </th>
                                                 <td>{{ $order->created_at }}</td>
+                                                <td>
+                                                    @if($order->status == false)
+                                                        <form id="cancel-form-{{ $order->id }}" action="{{ route('order.cancel',$order->id) }}" style="display: none;" method="GET">
+                                                            @csrf
+                                                            @method('CANCEL')
+                                                        </form>
+                                                        <button type="button" class="btn btn-danger btn-sm" onclick="if(confirm('Are you sure you want to cancel this?')){
+                                                            event.preventDefault();
+                                                            document.getElementById('cancel-form-{{ $order->id }}').submit();
+                                                        }else {
+                                                            event.preventDefault();
+                                                                }"><i class="material-icons">cancel</i></button>
+                                                    @endif
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

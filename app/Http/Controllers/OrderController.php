@@ -34,4 +34,14 @@ class OrderController extends Controller
             return redirect()->back();
         }
     }
+    public function cancel($id){
+
+        $param    = ['id' => $id];
+        $route    = '/api/order_cancel';
+        $result   = $this->ApiCall($route,$param,"array");
+        if(isset($result['status']) && isset($result['message'])){            
+            Toastr::success($result['message'],$result['status'],["positionClass" => "toast-top-right"]);
+            return redirect()->back();
+        }
+    }
 }

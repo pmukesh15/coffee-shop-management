@@ -32,6 +32,10 @@ Route::GET('/withdraw_wallet',[
     'as' => 'withdraw_wallet',
     'uses' => 'Apis\OrderApiController@withdrawWallet'
 ]);
+Route::GET('/order_cancel',[
+    'as' => 'order_cancel',
+    'uses' => 'Apis\OrderApiController@deleteOrder'
+]);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

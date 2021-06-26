@@ -13,7 +13,7 @@
                     <p>Dashboard</p>
                 </a>
             </li>
-            <li class="{{ Request::is('admin/slider*') ? 'active': '' }}">
+            <li class="{{ Request::is('admin/slider*') ? 'active': '' }}" style="display:none">
                 <a href="{{ route('slider.index') }}">
                     <i class="material-icons">slideshow</i>
                     <p>Sliders</p>
@@ -37,10 +37,10 @@
                     <p>Orders</p>
                 </a>
             </li>
-            <li class="{{ Request::is('admin/contact*') ? 'active': '' }}">
-                <a href="{{ route('contact.index') }}">
-                    <i class="material-icons">message</i>
-                    <p>Contact Message</p>
+            <li class="{{ Request::is('admin/customer*') ? 'active': '' }}" >
+                <a href="{{ route('customer.index') }}">
+                    <i class="material-icons">account_circle</i>
+                    <p>Customers</p>
                 </a>
             </li>
 

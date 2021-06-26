@@ -13,49 +13,17 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="card card-stats">
                         <div class="card-header" data-background-color="orange">
-                            <i class="material-icons">content_copy</i>
+                            <i class="material-icons">content_paste</i>
                         </div>
                         <div class="card-content">
-                            <p class="category">Category / Item</p>
-                            <h3 class="title">{{ $categoryCount }}/{{ $itemCount }}
+                            <p class="category">Categories</p>
+                            <h3 class="title">{{ $categoryCount }}
                             </h3>
                         </div>
                         <div class="card-footer">
                             <div class="stats">
-                                <i class="material-icons text-danger">info</i>
-                                <a href="#pablo">Total Categories and Items</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="card card-stats">
-                        <div class="card-header" data-background-color="green">
-                            <i class="material-icons">slideshow</i>
-                        </div>
-                        <div class="card-content">
-                            <p class="category">Slider Count</p>
-                            <h3 class="title">{{ $sliderCount }}</h3>
-                        </div>
-                        <div class="card-footer">
-                            <div class="stats">
-                                <i class="material-icons">date_range</i> <a href="{{ route('slider.index') }}">Get More Details...</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="card card-stats">
-                        <div class="card-header" data-background-color="red">
-                            <i class="material-icons">info_outline</i>
-                        </div>
-                        <div class="card-content">
-                            <p class="category">Order</p>
-                            <h3 class="title">{{ $orders->count() }}</h3>
-                        </div>
-                        <div class="card-footer">
-                            <div class="stats">
-                                <i class="material-icons">local_offer</i> Not Confirmed Order
+                                <i class="material-icons">local_offer</i>
+                                <a href="#pablo">Total Categories</a>
                             </div>
                         </div>
                     </div>
@@ -63,15 +31,50 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="card card-stats">
                         <div class="card-header" data-background-color="blue">
-                            <i class="fa fa-twitter"></i>
+                            <i class="material-icons">library_books</i>
                         </div>
                         <div class="card-content">
-                            <p class="category">Contact</p>
-                            <h3 class="title">{{ $walletCount }}</h3>
+                            <p class="category">Items</p>
+                            <h3 class="title">{{ $itemCount }}</h3>
                         </div>
                         <div class="card-footer">
                             <div class="stats">
-                                <i class="material-icons">update</i> Just Updated
+                                <i class="material-icons">local_offer</i>
+                                <a href="#pablo">Total Items</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats">
+                        <div class="card-header" data-background-color="green">
+                            <i class="material-icons">account_circle</i>
+                        </div>
+                        <div class="card-content">
+                            <p class="category">Customers</p>
+                            <h3 class="title">{{ $customerCount }}</h3>
+                        </div>
+                        <div class="card-footer">
+                            <div class="stats">
+                                <i class="material-icons">local_offer</i>
+                                <a href="#pablo">Total Customers</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats">
+                        <div class="card-header" data-background-color="red">
+                            <i class="material-icons">chrome_reader_mode</i>
+                        </div>
+                        <div class="card-content">
+                            <p class="category">Orders</p>
+                            <h3 class="title">{{ $orderCount }}</h3>
+                        </div>
+                        <div class="card-footer">
+                            <div class="stats">
+                                <i class="material-icons">local_offer</i>
+                                <a href="#pablo">{{$notConfirmed}} Not confirmed</a>
                             </div>
                         </div>
                     </div>
@@ -82,14 +85,16 @@
                     @include('layouts.partial.msg')
                     <div class="card">
                         <div class="card-header" data-background-color="purple">
-                            <h4 class="title">Orders</h4>
+                            <h4 class="title">Confirmed Orders</h4>
                         </div>
                         <div class="card-content table-responsive">
                             <table id="table" class="table"  cellspacing="0" width="100%">
                                 <thead class="text-primary">
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Phone</th>
+                                <th>Item</th>
+                                <th>Total</th>
+                                <th>Payment Method</th>
                                 <th>Status</th>
                                 <th>Action</th>
                                 </thead>
@@ -98,7 +103,9 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $order->name }}</td>
-                                        <td>{{ $order->phone }}</td>
+                                        <td>{{ $order->item_name }}</td>
+                                        <td>{{ $order->total }}</td>
+                                        <td>{{ $order->type }}</td>
                                         <th>
                                             @if($order->status == true)
                                                 <span class="label label-info">Confirmed</span>
