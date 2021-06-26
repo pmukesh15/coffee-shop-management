@@ -18,7 +18,7 @@ class DashboardController extends Controller
     {
         $categoryCount = Category::count();
         $itemCount     = Item::count();
-        $customerCount = User::count();
+        $customerCount = User::where('name','!=',"Admin")->count();
         $orderCount    = Order::count();
         $orders        = DB::table('orders')
                                 ->join('items', 'items.id', '=', 'orders.item_id')
