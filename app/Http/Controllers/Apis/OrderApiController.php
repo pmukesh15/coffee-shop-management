@@ -64,7 +64,7 @@ class OrderApiController extends Controller
             $response['items'][$key]->category_slug = $item->category->slug;
             if (!file_exists('backend/img/'.$item->image))
             {
-                if($count==4){
+                if($count==5){
                     $count = 1;
                 }
                 $response['items'][$key]->image = 'category_backup'.$count.'.jpg';
