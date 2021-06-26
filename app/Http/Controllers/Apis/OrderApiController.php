@@ -70,7 +70,7 @@ class OrderApiController extends Controller
         else{
             $objWallet              = New Wallet();
             $objWallet->customer_id = $request->id;
-            $objWallet->balance     = $walletBal;
+            $objWallet->balance     = $response['walletBal'];
             $objWallet->save();
         }
         $response['orders'] = DB::table('orders')
