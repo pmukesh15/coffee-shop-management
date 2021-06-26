@@ -26,6 +26,7 @@ class HomeController extends Controller
         $param    = ['id' => $id];
         $route    = '/api/load_home';
         $result   = $this->ApiCall($route,$param,"object");
+        $walletBal= 0;
         if(isset($result)){
             $sliders    = $result->sliders;
             $categories = $result->categories;
