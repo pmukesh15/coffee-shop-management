@@ -125,7 +125,10 @@ class ItemController extends Controller
             {
                 mkdir('uploads/item',0777,true);
             }
-            unlink('uploads/item/'.$item->image);
+            if (file_exists('uploads/item/'.$item->image))
+            {
+                unlink('uploads/item/'.$item->image);
+            }
             $image->move('uploads/item',$imagename);
         }else{
             $imagename = $item->image;
