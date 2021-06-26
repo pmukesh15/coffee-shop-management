@@ -22,6 +22,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if(!isset(Auth::user()->id)){
+            return redirect()->route('login');
+        }
         $id       = Auth::user()->id;
         $param    = ['id' => $id];
         $route    = '/api/load_home';

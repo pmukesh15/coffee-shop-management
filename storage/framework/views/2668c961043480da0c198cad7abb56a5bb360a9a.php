@@ -135,7 +135,7 @@
                         <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <li class="item" id="<?php echo e($item->category_slug); ?>">
                                 <a href="#">
-                                    <img src="<?php echo e(asset('uploads/item/'.$item->image)); ?>" class="img-responsive" alt="Item" style="height: 300px; width: 369px;" >
+                                    <img src="<?php echo e(asset('backend/img/'.$item->image)); ?>" class="img-responsive" alt="Item" style="height: 300px; width: 369px;" >
                                     <div class="menu-desc text-center">
                                             <span>
                                                 <h3><?php echo e($item->name); ?></h3>

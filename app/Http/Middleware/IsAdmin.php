@@ -15,7 +15,7 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (\Auth::user()->name == 'Admin') {
+        if (isset(\Auth::user()->name) && \Auth::user()->name == 'Admin') {
         return $next($request);
         }
         return redirect('home');
