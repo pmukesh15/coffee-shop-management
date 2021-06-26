@@ -2,7 +2,7 @@
 
 deployed in use the credential to login to admin panel
 
-username : admin@coffeeshop.com, 
+username : admin@coffeeshop.com
 password : 123456789
 
 
@@ -70,7 +70,7 @@ The admin login.
 
 using 
 
-admin@coffeeshop.com,
+admin@coffeeshop.com
 
 123456789
 
