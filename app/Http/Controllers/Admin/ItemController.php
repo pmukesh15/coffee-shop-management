@@ -55,11 +55,11 @@ class ItemController extends Controller
             $currentDate = Carbon::now()->toDateString();
             $imagename = $slug.'-'.$currentDate.'-'. uniqid() .'.'. $image->getClientOriginalExtension();
 
-            if (!file_exists('backebd/img'))
+            if (!file_exists('backend/img'))
             {
-                mkdir('backebd/img',0777,true);
+                mkdir('backend/img',0777,true);
             }
-            $image->move('backebd/img',$imagename);
+            $image->move('backend/img',$imagename);
         }else{
             $imagename = "default.png";
         }
@@ -121,15 +121,15 @@ class ItemController extends Controller
             $currentDate = Carbon::now()->toDateString();
             $imagename = $slug.'-'.$currentDate.'-'. uniqid() .'.'. $image->getClientOriginalExtension();
 
-            if (!file_exists('backebd/img'))
+            if (!file_exists('backend/img'))
             {
-                mkdir('backebd/img',0777,true);
+                mkdir('backend/img',0777,true);
             }
-            if (file_exists('backebd/img/'.$item->image))
+            if (file_exists('backend/img/'.$item->image))
             {
-                unlink('backebd/img/'.$item->image);
+                unlink('backend/img/'.$item->image);
             }
-            $image->move('backebd/img',$imagename);
+            $image->move('backend/img',$imagename);
         }else{
             $imagename = $item->image;
         }
@@ -152,9 +152,9 @@ class ItemController extends Controller
     public function destroy($id)
     {
         $item = Item::find($id);
-        if (file_exists('backebd/img/'.$item->image))
+        if (file_exists('backend/img/'.$item->image))
         {
-            unlink('backebd/img/'.$item->image);
+            unlink('backend/img/'.$item->image);
         }
         $item->delete();
         return redirect()->back()->with('successMsg','Item successfully Deleted');
